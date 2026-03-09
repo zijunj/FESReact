@@ -11,7 +11,7 @@ function Home() {
         <h1 className="search-title home">
           Find Your Movie Here. Movies are provided by OMDb API
         </h1>
-        <SearchBar />
+        <SearchBar variant="home" useLocalLoading={true} />
       </div>
       <div className="homepagePicture">
         <img src={homePagePicture} alt="homePagePicture" />

@@ -15,6 +15,7 @@ function Movies() {
   const [loading, setLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState("default");
   const [titleAnimating, setTitleAnimating] = useState(false);
+  const [displayedTitle, setDisplayedTitle] = useState("Search results:");
 
   const searchTerm = useMemo(() => {
     const params = new URLSearchParams(location.search);
@@ -27,8 +28,11 @@ function Movies() {
     setTitleAnimating(true);
 
     const timeout = setTimeout(() => {
+      setDisplayedTitle(
+        searchTerm ? `Search results for "${searchTerm}"` : "Search results:",
+      );
       setTitleAnimating(false);
-    }, 300);
+    }, 200);
 
     return () => clearTimeout(timeout);
   }, [searchTerm]);
@@ -78,7 +82,7 @@ function Movies() {
     }
 
     fetchMovies();
-  }, [searchTerm]);
+  }, [apiSearchTerm]);
 
   const sortedMovies = useMemo(() => {
     const sorted = [...movies];
@@ -109,7 +113,7 @@ function Movies() {
 
         <div className="search">
           <h1 className="search-title">Browse the Movies</h1>
-          <SearchBar />
+          <SearchBar variant="movie" />
         </div>
       </section>
 
@@ -117,9 +121,7 @@ function Movies() {
         <div className="container">
           <div className="movies__header">
             <h2 className={`results-title ${titleAnimating ? "animate" : ""}`}>
-              {searchTerm
-                ? `Search results for "${searchTerm}"`
-                : "Search results:"}
+              {displayedTitle}
             </h2>
 
             <select
